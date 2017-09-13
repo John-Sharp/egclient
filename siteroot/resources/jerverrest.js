@@ -22,13 +22,14 @@ var refreshUserDiv = function() {
 
         $(".editUser").on("click", function() {
             var editUserForm = {};
-            editUserForm["firstName"] = $(this).parent().find("[name='firstName']").val();
-            editUserForm["secondName"] = $(this).parent().find("[name='secondName']").val();
+            editUserForm["FirstName"] = $(this).parent().find("[name='firstName']").val();
+            editUserForm["SecondName"] = $(this).parent().find("[name='secondName']").val();
 
             $.ajax("http://localhost:8080/users/"+$(this).parent().find("[name='uuid']").val(),
                     {
                         method : "PUT",
-                        data : editUserForm,
+                        data : JSON.stringify(editUserForm),
+                        processData : false,
                         success : refreshUserDiv
                     });
         });
@@ -49,10 +50,16 @@ $(document).ready(function() {
     refreshUserDiv();
     $("#createUser").on("click", function() {
         var createUserForm = {};
-        createUserForm["firstName"] = $("#createUserForm [name='firstName']").val();
-        createUserForm["secondName"] = $("#createUserForm [name='secondName']").val();
+        createUserForm["FirstName"] = $("#createUserForm [name='firstName']").val();
+        createUserForm["SecondName"] = $("#createUserForm [name='secondName']").val();
 
-        $.post("http://localhost:8080/users", createUserForm, refreshUserDiv);
+        $.ajax("http://localhost:8080/users",
+                {
+                    method : "POST",
+                    data : JSON.stringify(createUserForm),
+                    processData : false,
+                    success : refreshUserDiv,
+                });
     });
 });
 
