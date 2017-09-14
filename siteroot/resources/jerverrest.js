@@ -1,7 +1,8 @@
 var jerverrest = function() {
 
 var uname = "";
-var pwd = "";
+var pwd = ""; 
+var loggedIn = false;
 
 var getUserEntryText = function(uuid, fname, sname) {
     uet = "<div>";
@@ -61,7 +62,6 @@ var refreshUserDiv = function() {
         });
 };
 
-var loggedIn = false;
 
 var setVerificationPage = function() {
     $(document.body).html(
@@ -74,17 +74,19 @@ var setVerificationPage = function() {
 
 
     $("#logIn").on("click", function() {
-        var verificationForm = {};
-        verificationForm["UserName"] = $("[name='userName']").val();
-        verificationForm["Password"] = $("[name='password']").val();
+        uname = $("[name='userName']").val();
+        pwd = $("[name='password']").val();
 
         $.ajax("http://localhost:8080/verification",
                 {
                     method : "GET",
                     success : function () {
+
+                        // put credentials in cookie that expires in 5 minutes
                         loggedIn = true;    
-                        uname = verificationForm["UserName"];
-                        pwd = verificationForm["Password"]
+                        cookie.expiresMultiplier = 60;
+                        cookie.set({uname : uname, pwd : pwd, loggedIn : 'true'}, {expires:5});
+
                         setMainPage();
                     },
                     complete : function (res) {
@@ -94,7 +96,7 @@ var setVerificationPage = function() {
                     },
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader('Authorization', 'Basic ' +
-                            btoa(verificationForm["UserName"] + ':' + verificationForm["Password"]));
+                            btoa(uname + ':' + pwd));
                     }
                 });
     });
@@ -131,6 +133,10 @@ var setMainPage = function() {
 };
 
 $(document).ready(function() {
+    uname = cookie.get('uname');
+    pwd = cookie.get('pwd'); 
+    loggedIn = cookie.get('loggedIn') === 'true' ? true : false;
+
     if (!loggedIn) {
         setVerificationPage();
     } else {
