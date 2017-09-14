@@ -1,5 +1,8 @@
 var jerverrest = function() {
 
+var uname = "jcsharp";
+var pwd = "pwd";
+
 var getUserEntryText = function(uuid, fname, sname) {
     uet = "<div>";
     uet +='<input type="hidden" name="uuid" value="' + uuid + '"/>';
@@ -14,36 +17,48 @@ var getUserEntryText = function(uuid, fname, sname) {
 };
 
 var refreshUserDiv = function() {
-    $.get("http://localhost:8080/users", function( response ) {
-        $("#userList").html("");
-        for (i=0; i<response.length; i++) {
-            $("#userList").append(getUserEntryText(response[i].Uuid, response[i].FirstName, response[i].SecondName));   
-        }
+    $.ajax("http://localhost:8080/users",
+        {
+            method : "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(uname + ':' + pwd));
+            },
+            dataType : "json",
+            success : function ( response ) {
+                $("#userList").html("");
+                for (i=0; i<response.length; i++) {
+                    $("#userList").append(getUserEntryText(response[i].Uuid, response[i].FirstName, response[i].SecondName));   
+                }
 
-        $(".editUser").on("click", function() {
-            var editUserForm = {};
-            editUserForm["FirstName"] = $(this).parent().find("[name='firstName']").val();
-            editUserForm["SecondName"] = $(this).parent().find("[name='secondName']").val();
+                $(".editUser").on("click", function() {
+                    var editUserForm = {};
+                    editUserForm["FirstName"] = $(this).parent().find("[name='firstName']").val();
+                    editUserForm["SecondName"] = $(this).parent().find("[name='secondName']").val();
 
-            $.ajax("http://localhost:8080/users/"+$(this).parent().find("[name='uuid']").val(),
-                    {
-                        method : "PUT",
-                        data : JSON.stringify(editUserForm),
-                        processData : false,
-                        success : refreshUserDiv
-                    });
+                    $.ajax("http://localhost:8080/users/"+$(this).parent().find("[name='uuid']").val(),
+                        {
+                            method : "PUT",
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(uname + ':' + pwd));
+                            },
+                            data : JSON.stringify(editUserForm),
+                            processData : false,
+                            success : refreshUserDiv
+                        });
+                });
+
+                $(".deleteUser").on("click", function() {
+                    $.ajax("http://localhost:8080/users/"+$(this).parent().find("[name='uuid']").val(),
+                        {
+                            method : "DELETE",
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(uname + ':' + pwd));
+                            },
+                            success : refreshUserDiv
+                        });
+                });
+            }
         });
-
-        $(".deleteUser").on("click", function() {
-            $.ajax("http://localhost:8080/users/"+$(this).parent().find("[name='uuid']").val(),
-                    {
-                        method : "DELETE",
-                        success : refreshUserDiv
-                    });
-        });
-
-    }, "json");
-
 };
 
 $(document).ready(function() {
@@ -59,6 +74,9 @@ $(document).ready(function() {
                     data : JSON.stringify(createUserForm),
                     processData : false,
                     success : refreshUserDiv,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(uname + ':' + pwd));
+                    }
                 });
     });
 });
