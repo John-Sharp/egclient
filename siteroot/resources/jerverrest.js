@@ -1,7 +1,7 @@
 var jerverrest = function() {
 
-var uname = "jcsharp";
-var pwd = "pwd";
+var uname = "";
+var pwd = "";
 
 var getUserEntryText = function(uuid, fname, sname) {
     uet = "<div>";
@@ -61,7 +61,56 @@ var refreshUserDiv = function() {
         });
 };
 
-$(document).ready(function() {
+var loggedIn = false;
+
+var setVerificationPage = function() {
+    $(document.body).html(
+        '<div id="errorDiv"></div>' +
+        '<div>Username: <input type="text" placeholder="username" name="userName"/></div>' +
+        '<br/>' +
+        '<div>Password: <input type="password" placeholder="password" name="password"/></div>' +
+        '<br/>' +
+        '<div><span id="logIn" class="greenButton" href="#">Log in</span></div>');
+
+
+    $("#logIn").on("click", function() {
+        var verificationForm = {};
+        verificationForm["UserName"] = $("[name='userName']").val();
+        verificationForm["Password"] = $("[name='password']").val();
+
+        $.ajax("http://localhost:8080/verification",
+                {
+                    method : "GET",
+                    success : function () {
+                        loggedIn = true;    
+                        uname = verificationForm["UserName"];
+                        pwd = verificationForm["Password"]
+                        setMainPage();
+                    },
+                    complete : function (res) {
+                        if (res.status == 403) {
+                            $("#errorDiv").html("incorrect username or password");
+                        }
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' +
+                            btoa(verificationForm["UserName"] + ':' + verificationForm["Password"]));
+                    }
+                });
+    });
+}
+
+var setMainPage = function() {
+    $(document.body).html(
+    '<h1>User List</h1>' + 
+    '<div id="createUserForm">' +
+    '    <input type="text" placeholder="first name" name="firstName"/>' +
+    '   <input type="text" placeholder="surname" name="secondName"/> ' +
+    '   <span id="createUser" class="greenButton" href="#">Create</span>' +
+    '</div>' +
+    '<div id="userList"></div>'
+    );
+
     refreshUserDiv();
     $("#createUser").on("click", function() {
         var createUserForm = {};
@@ -79,6 +128,14 @@ $(document).ready(function() {
                     }
                 });
     });
+};
+
+$(document).ready(function() {
+    if (!loggedIn) {
+        setVerificationPage();
+    } else {
+        setMainPage();
+    }
 });
 
 
