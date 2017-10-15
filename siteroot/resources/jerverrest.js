@@ -4,10 +4,11 @@ var uname = "";
 var pwd = ""; 
 var loggedIn = false;
 
-var getThreadEntryText = function(id, title) {
+var getThreadEntryText = function(thread) {
     tet = '<br/><div class="threadTitle">';
-    tet += '<input type="hidden" name="id" value="' + id + '"/>';
-    tet += title;
+    tet += '<input type="hidden" name="id" value="' + thread.Id + '"/>';
+    tet += thread.Title;
+    tet += '<span> (' + thread.NumMsgs + ' posts) </span>';
     tet += "</div>";
 
     return tet;
@@ -29,7 +30,7 @@ var refreshThreadList = function() {
             success : function ( response ) {
                 $("#threadList").html("");
                 for (i=0; i<response.length; i++) {
-                    $("#threadList").append(getThreadEntryText(response[i].Id, response[i].Title));   
+                    $("#threadList").append(getThreadEntryText(response[i]));   
                 }
 
                 $(".threadTitle").on("click", function() {
@@ -50,7 +51,7 @@ var refreshThreadView = function(threadId) {
             dataType : "json",
             success : function ( response ) {
                 $("#threadTitle").html("");
-                $("#threadTitle").append(response.Title);
+                $("#threadTitle").append(response.Title + "( " + response.NumMsgs + " posts)");
             }
         });
 
