@@ -64,8 +64,32 @@ var refreshThreadView = function(threadId) {
             success : function ( response ) {
                 $("#messageList").html("");
                 for (i=0; i<response.length; i++) {
-                    $("#messageList").append(getMessageEntryText(response[i].Content));   
+                    var met = $($.parseHTML(getMessageEntryText(response[i].Content)));
+                    $("#messageList").append(met);
+                    var popMessageUserField = popMessageUserFieldFactory(met);
+                    retrieveUser(response[i].AuthorId, popMessageUserField);
                 }
+            }
+        });
+};
+
+var popMessageUserFieldFactory = function (messageElement) {
+    var popMessageUserField = function (user) {
+        messageElement.append(" " + user.FirstName + " " + user.SecondName + " (" + user.Username + ")");
+    };
+    return popMessageUserField;
+};
+
+var retrieveUser = function(userId, cb) {
+    $.ajax("http://localhost:8080/users/" + userId,
+        {
+            method : "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(uname + ':' + pwd));
+            },
+            dataType : "json",
+            success : function ( response ) {
+                cb(response);
             }
         });
 };
