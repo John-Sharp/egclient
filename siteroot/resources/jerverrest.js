@@ -20,7 +20,7 @@ var getMessageEntryText = function(content) {
 }
 
 var refreshThreadList = function() {
-    $.ajax("http://localhost:8080/threads",
+    $.ajax("http://localhost:8080/threads?page=0&count=5",
         {
             method : "GET",
             beforeSend: function (xhr) {
@@ -29,8 +29,8 @@ var refreshThreadList = function() {
             dataType : "json",
             success : function ( response ) {
                 $("#threadList").html("");
-                for (i=0; i<response.length; i++) {
-                    $("#threadList").append(getThreadEntryText(response[i]));   
+                for (i=0; i<response['Entities'].length; i++) {
+                    $("#threadList").append(getThreadEntryText(response['Entities'][i]));   
                 }
 
                 $(".threadTitle").on("click", function() {
@@ -55,7 +55,7 @@ var refreshThreadView = function(threadId) {
             }
         });
 
-    $.ajax("http://localhost:8080/threads/" + threadId + "/messages",
+    $.ajax("http://localhost:8080/threads/" + threadId + "/messages?page=0&count=5",
         {
             method : "GET",
             beforeSend: function (xhr) {
@@ -64,11 +64,11 @@ var refreshThreadView = function(threadId) {
             dataType : "json",
             success : function ( response ) {
                 $("#messageList").html("");
-                for (i=0; i<response.length; i++) {
-                    var met = $($.parseHTML(getMessageEntryText(response[i].Content)));
+                for (i=0; i<response['Entities'].length; i++) {
+                    var met = $($.parseHTML(getMessageEntryText(response['Entities'][i].Content)));
                     $("#messageList").append(met);
                     var popMessageUserField = popMessageUserFieldFactory(met);
-                    retrieveUser(response[i].AuthorId, popMessageUserField);
+                    retrieveUser(response['Entities'][i].AuthorId, popMessageUserField);
                 }
             }
         });
