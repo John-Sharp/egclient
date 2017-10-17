@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+<style>
+body {
+    font-family: sans-serif;
+}
+
+#titleBar {
+        display:flex;
+        justify-content: right;
+            align-items:centre;
+        margin-right:5%;
+        margin-left:5%;
+}
+
+#userSec {
+        display: inline-block;
+        padding: 10px;
+        font-size: 20px;
+}
+
+#logOutBtn {
+    background-color: #4c2b36ff;
+    color: #ddf45bff;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#logOutCont {
+    display: flex;
+    justify-content:center;
+    flex-direction : column;
+    width: 150px;
+    min-width: 150px;
+}
+
+#breadcrumb {
+    margin-left:5%;
+}
+
+.breadcrumbSec,.breadcrumbLink {
+        display: inline;
+        font-size: 20px;
+}
+
+.breadcrumbSec.b1 {
+    font-weight: bold;
+        color: #141115ff;
+}
+
+#mainSection {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 25px;
+}
+
+#threadTitle {
+    font-size: 38px;
+    color: #acc756ff;
+}
+
+.msgBody {
+    color: #141115ff;
+}
+
+.msg {
+    background-color: #ddf45bff;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+#msgList {
+    margin-top: 20px;
+}
+
+.authorSec {
+    text-align: right;
+    color: #8d6346ff;
+    font-weight: bold;
+        font-size: 18px;
+}
+
+.separatorLine {
+    height: 5px;
+    background-color: #8d6346ff;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#pagingSec {
+        display: table;
+}
+
+.pagingBox {
+    display: table-cell;
+    background-color: #c6f91fff;
+    border: 5px solid #8d6346ff;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    color: #4c2b36ff;
+    font-weight: bold;
+}
+
+.pagingBox.pagingBoxSelected {
+    background-color: #acc756ff;
+    color: #141115ff;
+}
+
+.pagingSpacer {
+    display: table-cell;
+        width:7px;
+}
+
+#msgEntrySec {
+    margin-top: 15px;
+}
+
+#msgEntry {
+    width:100%;
+    resize: none;
+    background-color: #ffffff;
+    border: 2px solid #141115ff;
+    border-radius: 8px;
+    padding: 12px; 20px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+#postBtn {
+    background-color: #c6f91fff;
+    color: #8d6346ff;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+    border: 5px solid #8d6346ff;
+}
+
+</style>
+    </head>
+    <body>
+        <div id="titleBar">
+            <div id="userSec">Paul Dirac (pdirac)</div>
+            <div id="logOutCont">
+                <div id="logOutBtn">LOG OUT</div>
+            </div>
+        </div>
+        <div id="breadcrumb">
+            <div class="breadcrumbSec b1">main </div>
+            <div class="breadcrumbLink">/</div>
+            <div class="breadcrumbSec b2">Lorem Ipsum </div>
+        </div>
+        <div id="mainSection">
+            <div id="threadTitle">Lorem Ipsum</div>
+            <div id="msgList">
+                <div class="msg">
+                    <div class="authorSec">
+                        Niels Bohr 12 Dec 1928 09:21
+                    </div>
+                    <div class="separatorLine"></div>
+                    <div class="msgBody">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Nulla rutrum vel felis nec dapibus. Curabitur
+                        consectetur laoreet sem, et consequat urna laoreet id.
+                        Donec at ultricies tellus, ut venenatis dolor. Integer
+                        urna libero, aliquet eget mollis id, scelerisque ac
+                        mauris. Quisque nec lacus sed ante sagittis tempus. Nam
+                        lacinia, odio non fringilla interdum, enim orci blandit
+                        ex, sed viverra ipsum ligula a ligula. Donec ligula
+                        nulla, hendrerit in egestas ac, volutpat in mauris.
+                    </div>
+                </div>
+                <div class="msg">
+                    <div class="authorSec">
+                        Albert Einstein 18 Dec 1928 06:21
+                    </div>
+                    <div class="separatorLine"></div>
+                    <div class="msgBody">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Nulla rutrum vel felis nec dapibus. Curabitur
+                        consectetur laoreet sem, et consequat urna laoreet id.
+                        Donec at ultricies tellus, ut venenatis dolor. Integer
+                        urna libero, aliquet eget mollis id, scelerisque ac
+                        mauris. Quisque nec lacus sed ante sagittis tempus. Nam
+                        lacinia, odio non fringilla interdum, enim orci blandit
+                        ex, sed viverra ipsum ligula a ligula. Donec ligula
+                        nulla, hendrerit in egestas ac, volutpat in mauris.
+
+
+                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Nulla rutrum vel felis nec dapibus.
+                    </div>
+                </div>
+                <div id="pagingSec">
+                    <div class="pagingBox pagingBoxSelected">1</div>
+                    <div class="pagingSpacer"></div>
+                    <div class="pagingBox">2</div>
+                    <div class="pagingSpacer"></div>
+                    <div class="pagingBox">3</div>
+                </div>
+                <div id="msgEntrySec">
+                    <textarea id="msgEntry">
+Lorem ipsum dolor sit
+                    </textarea>
+                    <div id="postBtn">POST</div>
+                </div>
+            </div>
+        </div>
+    </body>
+<head>
