@@ -120,3 +120,150 @@
 	position:relative;
 	top:1px;
 }
+
+body {
+    font-family: sans-serif;
+}
+
+#titleBar {
+        display:flex;
+        justify-content: right;
+            align-items:centre;
+        margin-right:5%;
+        margin-left:5%;
+}
+
+#userSec {
+        display: inline-block;
+        padding: 10px;
+        font-size: 20px;
+}
+
+#logOutBtn {
+    background-color: #4c2b36;
+    color: #ddf45b;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#logOutCont {
+    display: flex;
+    justify-content:center;
+    flex-direction : column;
+    width: 150px;
+    min-width: 150px;
+}
+
+#breadcrumb {
+    margin-left:5%;
+}
+
+.breadcrumbSec,.breadcrumbLink {
+        display: inline;
+        font-size: 20px;
+}
+
+.breadcrumbSec.breadcrumbStem{
+    font-weight: bold;
+        color: #141115;
+}
+
+#mainSection {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 25px;
+}
+
+#threadTitle {
+    font-size: 38px;
+    color: #acc756ff;
+}
+
+.msgBody {
+    color: #141115;
+}
+
+.msg {
+    background-color: #ddf45b;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+#msgList {
+    margin-top: 20px;
+}
+
+.authorSec {
+    text-align: right;
+    color: #8d6346;
+    font-weight: bold;
+        font-size: 18px;
+}
+
+.separatorLine {
+    height: 5px;
+    background-color: #8d6346;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#pagingSec {
+        display: table;
+}
+
+.pagingBox {
+    display: table-cell;
+    background-color: #c6f91f;
+    border: 5px solid #8d6346;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    color: #4c2b36ff;
+    font-weight: bold;
+}
+
+.pagingBox.pagingBoxSelected {
+    background-color: #acc756;
+    color: #141115;
+}
+
+.pagingSpacer {
+    display: table-cell;
+        width:7px;
+}
+
+#msgEntrySec {
+    margin-top: 15px;
+}
+
+#msgEntry {
+    width:100%;
+    resize: none;
+    background-color: #ffffff;
+    border: 2px solid #141115;
+    border-radius: 8px;
+    padding: 12px; 20px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+#postBtn {
+    background-color: #c6f91f;
+    color: #8d6346ff;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+    border: 5px solid #8d6346;
+}
+

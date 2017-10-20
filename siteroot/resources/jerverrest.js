@@ -1,5 +1,4 @@
-var jerverrest = function() {
-
+var jerverrest = function() { 
 var uname = "";
 var pwd = ""; 
 var loggedIn = false;
@@ -52,6 +51,8 @@ var refreshThreadView = function(threadId) {
             success : function ( response ) {
                 $("#threadTitle").html("");
                 $("#threadTitle").append(response.Title + "( " + response.NumMsgs + " posts)");
+                breadcrumbs[BREADCRUMB_THREAD_OVERVIEW].title = response.Title;
+                setBreadcrumb([BREADCRUMB_THREAD_VIEW, BREADCRUMB_THREAD_OVERVIEW]);
             }
         });
 
@@ -207,6 +208,7 @@ var setNewThreadPage = function() {
 var setThreadOverviewPage = function() {
     $(document.body).html('');
     appendHeaderBarText($(document.body));
+    setBreadcrumb([BREADCRUMB_THREAD_OVERVIEW]);
     $(document.body).append(
     '<div><span id="createThread" class="greenButton" href="#">Start a new thread...</span></div>' +
     '<div id="threadList"></div>'
@@ -216,6 +218,13 @@ var setThreadOverviewPage = function() {
 
     refreshThreadList();
 };
+
+var BREADCRUMB_THREAD_VIEW = 0;
+var BREADCRUMB_THREAD_OVERVIEW = 1;
+var breadcrumbs = [
+    {"title":"main", "onClick":setThreadOverviewPage},
+    {"title":"", "onClick":function(){}}
+];
 
 var setThreadViewPage = function(threadId) {
     $(document.body).html("");
@@ -268,13 +277,38 @@ var logUserOut = function() {
 };
 
 var appendHeaderBarText = function(elem) {
-    var hbt = '<div id="headerBarText">';
-    hbt += 'welcome, ' + uname + ' ';
-    hbt += '<span class="redButton logOutButton">log out</span>';
+    var hbt = '<div id="titleBar">';
+    hbt += '        <div id="userSec">Paul Dirac (' + uname + ')</div>';
+    hbt += '        <div id="logOutCont">';
+    hbt += '            <div id="logOutBtn">LOG OUT</div>';
+    hbt += '        </div>';
+    hbt += '    </div>';
+    hbt += '<div id="breadcrumb">';
     hbt += '</div>';
+
     elem.append(hbt);
-    $('#headerBarText .logOutButton').on('click', logUserOut);
-}
+    $('#logOutBtn').on('click', logUserOut);
+};
+
+// <div class="breadcrumbSec b1">main </div>
+
+var setBreadcrumb = function(bcs) {
+    var bcta = []
+    for (i = 0; i<bcs.length; i++) {
+        var bcClass = "breadcrumbStem";
+        if (i==bcs.length-1) {
+            bcClass = "breadcrumbHead"; 
+        }
+        
+        bcta.push('<div id="breadcrumb' + i + '" class="breadcrumbSec ' + bcClass + '">' + breadcrumbs[i].title + '</div>');
+    }
+
+    $('#breadcrumb').html(bcta.join('<div class="breadcrumbLink">/</div>'));
+
+    for (i = 0; i<bcs.length-1; i++) {
+        $('#breadcrumb'+i).on('click', breadcrumbs[i].onClick);
+    }
+};
 
 $(document).ready(function() {
     uname = cookie.get('uname');
